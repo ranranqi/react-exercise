@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./style.css">
+    <title>龟兔赛跑</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        class App extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    result1: 0,
+                    result2: 0
+                }
+                this.t0 = new Date()
+            }
+            
+            success1 (){
+                console.log('rabbit 用时')
+                let t1 = new Date() - this.t0
+                this.setState({
+                    result1: t1
+                })
+            }
+            success2 (){
+                console.log('guigui 用时')
+                let t2 = new Date() - this.t0
+                this.setState({
+                    result2: t2
+                })
+            }
+            render(){
+                return (
+                    <div>
+                        <div style={this.state.style}>
+                            <Time1 result={this.state.result1} />
+                            <Track1 success={this.success1.bind(this)} />
+                            <Time2 result={this.state.result2} />
+                            <Track2 success={this.success2.bind(this)} />
+                        </div>
+                    </div>  
+                )
+            }
+        }
+        const Time1 = (props)=>{
+            return (
+                <div>
+                    <h2>兔子用时</h2>
+                    <div>{props.result} ms</div> 
+                </div>
+            )
+        }
+        const Time2 = (props)=>{
+            return (
+                <div>
+                    <h2>乌龟用时</h2>
+                    <div>{props.result} ms</div> 
+                </div>
+            )
+        }
+        class Track1 extends React.Component{
+            constructor(){
+                super()
+                let n = 0
+                this.state = {
+                    style: {
+                        position: 'relative', 
+                        left: `${n}%`
+                    }
+                }
+                let timeId = setInterval(() => {
+                    n += 20
+                    this.setState ({
+                        style: {
+                            position: 'relative', 
+                            left: `${n}%`
+                        }
+                    })
+                    if(n>=100){
+                        window.clearInterval(timeId)
+                        this.props.success()
+                    }
+                }, 1000);
+            }
+            render(){
+                return (
+                    <div>
+                        <div className="player" style={this.state.style}>🐇</div>
+                        <div className="track"></div>
+                    </div>
+                )
+            }
+        }
+        class Track2 extends React.Component{
+            constructor(){
+                super()
+                let n = 0
+                this.state = {
+                    style: {
+                        position: 'relative', 
+                        left: `${n}%`
+                    }
+                }
+                let timeId = setInterval(() => {
+                    n += 10
+                    this.setState ({
+                        style: {
+                            position: 'relative', 
+                            left: `${n}%`
+                        }
+                    })
+                    if(n>=100){
+                        window.clearInterval(timeId)
+                        this.props.success()
+                    }
+                }, 1000);
+            }
+            render(){
+                return (
+                    <div>
+                        <div className="player" style={this.state.style}>🐢</div>
+                        <div className="track"></div>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('app')
+        )
+    </script>
+</body>
+
+</html>
