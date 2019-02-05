@@ -32,9 +32,18 @@
 
         //类组件
         class App2 extends React.Component{
+            constructor (){
+                super()
+                this.state = {
+                    a: 1
+                }
+            }
             render(){
                 return (
-                    <h1>我是类组件</h1>
+                    <h1>
+                    我是类组件 
+                    {this.state.a}
+                    </h1>
                 )
             }
         }
