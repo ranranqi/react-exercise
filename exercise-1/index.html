@@ -23,10 +23,10 @@
 
         //函数式组件
         const App = (props)=>{
-            return <div>hi</div>
+            return <h1>{props.xin}  {props.min}</h1>
         }
         ReactDOM.render(
-            <App />,
+            <App xin="Ran" min="Qi"/>,
             document.getElementById('app')
         )
     </script>
