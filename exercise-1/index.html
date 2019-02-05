@@ -15,8 +15,18 @@
     <div id="app"></div>
 
     <script type="text/babel">
+        // 直接写入
+        // ReactDOM.render(
+        //     <h1>我的react第一课</h1>,
+        //     document.getElementById('app')
+        // )
+
+        //函数式组件
+        const App = (props)=>{
+            return <div>hi</div>
+        }
         ReactDOM.render(
-            <h1>我的react第一课</h1>,
+            <App />,
             document.getElementById('app')
         )
     </script>
