@@ -22,11 +22,24 @@
         // )
 
         //函数式组件
-        const App = (props)=>{
-            return <h1>{props.xin}  {props.min}</h1>
+        // const App = (props)=>{
+        //     return <h1>{props.xin}  {props.min}</h1>
+        // }
+        // ReactDOM.render(
+        //     <App xin="Ran" min="Qi"/>,
+        //     document.getElementById('app')
+        // )
+
+        //类组件
+        class App2 extends React.Component{
+            render(){
+                return (
+                    <h1>我是类组件</h1>
+                )
+            }
         }
         ReactDOM.render(
-            <App xin="Ran" min="Qi"/>,
+            <App2/>,
             document.getElementById('app')
         )
     </script>
