@@ -13,18 +13,39 @@
     <div id="app"></div>
 
     <script type="text/babel">
-        const App = ()=>{
-            return (
-                <div>
-                    <h1>hi</h1>
-                    <Child message='我是父组件传递来的数据'/>  
-                </div>
-            )
+
+        class App extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    message: '我是父组件传递来的数据'
+                }
+            }
+            //子组件调用这个函数改变数据。
+            changeMessage(){
+                this.setState({
+                    message: '子组件传递回来的参数'
+                })
+            }
+            render(){
+                return (
+                    // 父组件传一个message参数给子组件
+                    <div>
+                        <h1>hi</h1>
+                        <Child message={this.state.message} fn={this.changeMessage.bind(this)}/>  
+                    </div>
+                )
+            }
+            
         }
         //子组件通过props拿到
         const Child = (props)=>{
             return (
-                <h3>我是子组件，拿到的数据是：{props.message}</h3>
+                //子组件想改掉从父组件传递的数据，可通过this.setState更新数据
+                <div>
+                    <h3>我是子组件，拿到的数据是：{props.message}</h3>
+                    <button onClick={props.fn}>click</button>
+                </div>
             )
         }
         ReactDOM.render(
