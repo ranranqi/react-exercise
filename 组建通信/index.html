@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组建通信</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        const App = ()=>{
+            return (
+                <div>
+                    <h1>hi</h1>
+                    <Child message='我是父组件传递来的数据'/>  
+                </div>
+            )
+        }
+        //子组件通过props拿到
+        const Child = (props)=>{
+            return (
+                <h3>我是子组件，拿到的数据是：{props.message}</h3>
+            )
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('app')
+        )
+            
+    </script>
+</body>
+</html>
