@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用eventhub实现组件通信</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        var money = {
+            amount: 100000
+        }
+
+        //eventHub
+        var fnLists = {}
+        var eventHub = {
+            trigger(eventName, data){
+                let fnList = fnLists[eventName]
+                if(!fnList){return}
+                for(let i = 0; i < fnList.length; i++){
+                    fnList[i](data)
+                }
+            },
+            on(eventName, fn){
+                if(!fnLists[eventName]){
+                    fnLists[eventName] = []
+                }
+                fnLists[eventName].push(fn)
+            }
+        }
+
+        
+
+        class App extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    
+                }
+            }
+            render(){
+                return (
+                    <div className="out">
+                        <Bigpa /> 
+                        <Smallpa />
+                    </div>
+                )
+            }
+        }
+        class Bigpa extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    money: money
+                }
+            }
+            render(){
+                return (
+                    <div className="pa">
+                        大爸 {this.state.money.amount}
+                        <Son1 />
+                        <Son2 />
+                    </div>
+                )
+            }
+        }
+        class Smallpa extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    money: money
+                }
+            }
+            render(){
+                return (
+                    <div className="pa">
+                        二爸 {this.state.money.amount}
+                        <Son3 />
+                        <Son4 />
+                    </div>
+                )
+            }
+        }
+        class Son1 extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    money: money
+                }
+            }
+            render(){
+                return (
+                    <div className="son">
+                    大儿子 {this.state.money.amount}
+                    </div>
+                )
+            }
+        }
+        class Son2 extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    money: money
+                }
+            }
+            x(){
+                money.amount -= 100
+                eventHub.trigger('我想花钱',100)
+                this.setState({
+                    money: money
+                })
+            }
+            render(){
+                return (
+                    <div className="son">
+                    二儿子 {this.state.money.amount}
+                    <button onClick={()=>{this.x()}}>消费</button>
+                    </div>
+                )
+            }
+        }
+        class Son3 extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    money: money
+                }
+                eventHub.on('我想花钱', (data)=>{
+                    this.setState({
+                        money: money
+                    })
+                })
+            }
+            render(){
+                return (
+                    <div className="son">
+                    三儿子 {this.state.money.amount}
+                    </div>
+                )
+            }
+        }
+        class Son4 extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    money: money
+                }
+            }
+            render(){
+                return (
+                    <div className="son">
+                    四儿子 {this.state.money.amount}
+                    </div>
+                )
+            }
+        }
+
+        
+            ReactDOM.render(
+                <App />,
+                document.getElementById('app')
+            )
+        
+        
+    </script>
+</body>
+</html>
